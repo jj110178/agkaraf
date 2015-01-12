@@ -46,9 +46,7 @@
                             !*
                         </Export-Package>
                         <Bundle-Classpath>
-                            WEB-INF/classes,
-                            adgateway-provider-3.0.1-SNAPSHOT.jar,
-                            adgateway-domain-3.0.1-SNAPSHOT.jar
+                            WEB-INF/classes,                           
                         </Bundle-Classpath>
                         <Web-ContextPath>agwar</Web-ContextPath>
                         <!-- >Embed-Dependency>

@@ -25,9 +25,9 @@ public class HelloWorld extends HttpServlet {
 	private static final String BUCKET_NAME = "ad-gateway-dev";//System.getProperty("aws.s3.bucket");
 
 	private static final long serialVersionUID = 1L;
-	//private static AdMarvelPropertiesXXXX props = AdMarvelPropertiesXXXX.getInstance();
-	private static AdMarvelProperties props = AdMarvelProperties.getInstance();
-	
+	private static AdMarvelPropertiesXXXX props2 = AdMarvelPropertiesXXXX.getInstance();
+	//private static AdMarvelProperties props = AdMarvelProperties.getInstance();
+	private String s3filename = "cassandra.properties";
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -45,7 +45,30 @@ public class HelloWorld extends HttpServlet {
 		writer.println("<h1>from WEB-INF/classes</h1>");
 		writer.println("</body>");
 		//props.load("cassandra.properties");
-		props.hello("Jeff");
+		//props2.load("cassandra.properties");
+		//writer.println("Test " + props.hello("Jeff"));
+		load();
+	}
+	
+	public void load() throws IOException{
+		System.out.println("Loading file from S3: "+ s3filename);
+        AmazonS3Client s3Client = new AmazonS3Client();
+        System.out.println("Initialize here Amazon S3 ");
+        try (S3Object object = s3Client.getObject(BUCKET_NAME, s3filename)) {
+            if (object != null) {            	
+            	System.out.println("Initialize here Amazon S3 1");
+                // create a temporary Properties object so we don't have to block for reads while downloading from s3
+                Properties newProps = new Properties();
+                newProps.load(object.getObjectContent());
+                //this.putAll(newProps);
+                //this.filename = s3filename;
+                //S3PropertyRegistry.getInstance().register(this);
+                System.out.println("Initialize here Amazon S3 2");
+            }
+        } catch (AmazonClientException ace) {
+        	System.out.println("Exception caught when loading file: {} " + s3filename);
+            throw ace;
+        }
 	}
 	
 }

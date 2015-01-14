@@ -2,18 +2,12 @@ package org.ops4j.web.samples.helloworld.servlet3.internal;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Properties;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.amazonaws.AmazonClientException;
-import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.S3Object;
-import com.pinsightmedia.adgateway.dsp.admarvel.AdMarvelProperties;
 
 
 @WebServlet(name = "helloWorld", urlPatterns = {"/hello", "/hello/filter"})
@@ -25,7 +19,7 @@ public class HelloWorld extends HttpServlet {
 	private static final String BUCKET_NAME = "ad-gateway-dev";//System.getProperty("aws.s3.bucket");
 
 	private static final long serialVersionUID = 1L;
-	private static AdMarvelPropertiesXXXX props2 = AdMarvelPropertiesXXXX.getInstance();
+	//private static AdMarvelPropertiesXXXX props2 = AdMarvelPropertiesXXXX.getInstance();
 	//private static AdMarvelProperties props = AdMarvelProperties.getInstance();
 	private String s3filename = "cassandra.properties";
 	@Override
@@ -51,10 +45,14 @@ public class HelloWorld extends HttpServlet {
 	}
 	
 	public void load() throws IOException{
-		System.out.println("Loading file from S3: "+ s3filename);
-        AmazonS3Client s3Client = new AmazonS3Client();
-        System.out.println("Initialize here Amazon S3 ");
-        try (S3Object object = s3Client.getObject(BUCKET_NAME, s3filename)) {
+		
+		
+		System.out.println("Sending email using SES ");
+        //AmazonS3Client s3Client = new AmazonS3Client();
+		AmazonSESSample se = new AmazonSESSample();
+		se.send();
+        System.out.println("Amazon SES Done ");
+        /*try (S3Object object = s3Client.getObject(BUCKET_NAME, s3filename)) {
             if (object != null) {            	
             	System.out.println("Initialize here Amazon S3 1");
                 // create a temporary Properties object so we don't have to block for reads while downloading from s3
@@ -68,7 +66,7 @@ public class HelloWorld extends HttpServlet {
         } catch (AmazonClientException ace) {
         	System.out.println("Exception caught when loading file: {} " + s3filename);
             throw ace;
-        }
+        }*/
 	}
 	
 }

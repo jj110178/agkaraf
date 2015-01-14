@@ -1,10 +1,7 @@
-import java.io.IOException;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.ops4j.web.samples.helloworld.servlet3.internal.AmazonSESSample;
-import org.ops4j.web.samples.helloworld.servlet3.internal.HelloWorld;
 
 
 public class TestLoad {
@@ -19,16 +16,6 @@ public class TestLoad {
 		
 	}
 
-	@Test
-	public void test() {
-		HelloWorld hello = new HelloWorld();
-		try {
-			hello.load();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-	}
 	
 	@Test
 	public void testEmail() {
